@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    machine:
+        docker_layer_caching: true
+    steps:
+        - checkout
+        - run:
+            name: docker-compose build
+            command: docker-compose build
+        - run:
+            command: docker-compose run django pwd && docker-compose run --rm django ls -al
+            name: check files
+        - run:
+            command: docker-compose run django pipenv run python /code/manage.py test
+            name: django run test
+
+        

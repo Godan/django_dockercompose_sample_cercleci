@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+
+  db:
+    build: ./docker/mysql
+    environment:
+        MYSQL_DATABASE: "test"
+        MYSQL_ROOT_PASSWORD: "python"
+        MYSQL_USER: python
+        MYSQL_PASSWORD: python
+        TZ: "Asia/Tokyo"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+
+  django:
+    build: ./docker/django
+    command: pipenv run python3 /code/manage.py runserver 0.0.0.0:80
+    volumes:
+      - ./src/mysite:/code
+    ports:
+      - "80:80"
+    links:
+      - db
+    environment:
+      VIRTUAL_HOST: app.*
