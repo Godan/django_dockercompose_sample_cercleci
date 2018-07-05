@@ -16,7 +16,7 @@ jobs:
             name: check files
         - run:
             name: sleep for waiting launch db
-            command: sleep 1
+            command: sleep 10
         - run:
             command: docker-compose exec django pipenv run python /code/manage.py test
             name: django run test
