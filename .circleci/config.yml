@@ -12,7 +12,13 @@ jobs:
             command: docker-compose run django pwd && docker-compose run --rm django ls -al
             name: check files
         - run:
-            command: docker-compose run django pipenv run python /code/manage.py test
+            command: docker-compose up -d 
+            name: check files
+        - run:
+            name: sleep for waiting launch db
+            command: sleep 1
+        - run:
+            command: docker-compose exec django pipenv run python /code/manage.py test
             name: django run test
 
         
